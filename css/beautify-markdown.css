@@ -1,0 +1,16 @@
+.js-card-desc {
+  background: linear-gradient(to bottom,#fff 0,#F8F9F9 100%);
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #E2E4E6;
+  border-bottom-color: #CDD2D4:
+}
+
+.js-card-desc h1 {
+  border-bottom: 2px solid #7f8c8d;
+}
+
+.js-card-desc h2 {
+  display: inline-block;
+  border-bottom: 1px dashed #7f8c8d;
+}

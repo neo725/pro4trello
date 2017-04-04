@@ -1,0 +1,3 @@
+.card-detail-window .window-module:not(.js-attachments-section):not(.add-comment-section):not(.u-clearfix):not(.checklist-list) {
+  display: none;
+}

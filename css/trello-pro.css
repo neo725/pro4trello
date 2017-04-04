@@ -1,0 +1,292 @@
+/* ============================ TRELLO CARD ============================ */
+
+.list-card-title {
+  margin-bottom: 15px !important;
+}
+
+.tpro-project {
+  font-weight:bold;
+  margin-right: 5px;
+}
+
+/*.list-card .badges {
+  width: 100%;
+  border-top: 1px dotted #CCC;
+  padding-top: 5px;
+}*/
+
+.tpro-tag.tpro-label {
+  font-weight: bold;
+  font-size: 11px;
+  border-radius: 3px;
+  padding: 1px 4px !important;
+  color: dimgray;
+}
+
+.tpro-tag.tpro-time-entry {
+  font-weight: bold;
+  font-size: 11px;
+  border-radius: 3px;
+}
+.tpro-tag.tpro-time-entry i { color: #2c3e50; }
+
+.tpro-tag.tpro-point {
+  font-weight: bold;
+  font-size: 11px;
+  border-radius: 3px;
+  /*color: white;*/
+  /*background-color: #3498db;*/
+}
+.tpro-tag.tpro-point i { color: #3498db; }
+
+/* Priorities */
+i.tpro-priority.medium { color: #f1c40f; }
+i.tpro-priority.high { color: #e67e22; }
+i.tpro-priority.critical { color: #c0392b; }
+
+/* Card borders based on priorities */
+.list-card.tpro-priority-normal { border-left: 3px solid #95a5a6; }
+.list-card.tpro-priority-medium { border-left: 3px solid #f1c40f; }
+.list-card.tpro-priority-high { border-left: 3px solid #e67e22; }
+.list-card.tpro-priority-critical { border-left: 3px solid #c0392b; }
+
+/* ============================ LIST STATS ============================ */
+
+body.tpro-show-list-stats .tpro-list-stats { display: block; }
+body.tpro-show-list-stats .list-wrapper { padding-bottom: 25px; }
+body.tpro-show-list-stats .list { border-top-left-radius: 0px; border-top-right-radius: 0px; }
+
+.tpro-list-stats {
+  height: 25px;
+  background-color: #E2E4E6;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  margin-bottom: 0px;
+  padding-top: 5px;
+  padding-right: 10px;
+  height: 20px;
+  text-align: right;
+}
+
+.tpro-list-stats .tpro-stat {
+  background-color: whitesmoke;
+  box-shadow: 1px 2px 6px 0px #ccc;
+  border-radius: 2px;
+  padding: 2px 3px 2px 3px;
+  font-weight: bold;
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.tpro-list-stats .tpro-stat.count i { color: #34495e; }
+.tpro-list-stats .tpro-stat.points i { color: #3498db; }
+.tpro-list-stats .tpro-stat.checklist i { color: #c0392b; }
+
+.list-wrapper.ui-sortable-helper .tpro-list-stats {
+  cursor:-webkit-grabbing;
+  cursor:-moz-grabbing;
+  cursor:grabbing;
+  box-shadow:-2px 2px 8px rgba(0,0,0,.3),0 0 1px rgba(0,0,0,.5);
+  -webkit-transform:rotate(4deg);
+  transform:rotate(4deg)
+}
+
+/*.list-header textarea { width: 100%; }*/
+
+/* =========================== CARD FILTER =========================== */
+
+#tpro-filter-popup {
+  background: #fff;
+  border-radius: 3px;
+  border: 1px solid #D6DADC;
+  border-bottom-color: #C4C9CC;
+  box-shadow: 0 1px 6px rgba(0,0,0,.15);
+  display: none;
+  overflow: hidden;
+  position: absolute;
+  right: -9999px;
+  top: -9999px;
+  width: 300px;
+  z-index: 70;
+}
+
+#tpro-filter-popup ul.pop-over-list li a span {
+  float: right;
+}
+
+.list-card.tpro-filter-hide {
+  display: none !important;
+}
+
+/* ============================ SETTINGS ============================ */
+
+.tpro-settings-wrapper {
+  background: #EDEFF0;
+  bottom: 10px;
+  top: 0;
+  right: 10px;
+  left: 10px;
+  position: absolute;
+  padding: 10px;
+  height: auto;
+  overflow: hidden;
+}
+
+.tpro-settings-header hr {
+  background: #D6DADC;
+  border: 0;
+  color: #D6DADC;
+  height: 1px;
+  margin: 0;
+  width: 100%;
+}
+
+.tpro-settings-body {
+  position: relative;
+  height: 100%;
+  overflow-y:scroll;
+  overflow-x: hidden;
+  padding-right: 10px;
+  margin-bottom: 100px;
+}
+
+.tpro-settings-body input[type="checkbox"] {
+  display: none;
+}
+
+.tpro-settings-body .tpro-before-after {
+  height: 50px;
+  margin-left: 10px;
+}
+
+.tpro-settings-body .checklist-item {
+  width: 100%;
+}
+
+span.tpro-before-after {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.tpro-settings-header a.icon-close, .tpro-settings-header a.icon-check {
+  float: right;
+}
+
+.tpro-settings-body textarea {
+  border: 0;
+  margin: 0;
+  padding: 9px 11px 0;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  height: 0px;
+  width: 95%;
+  resize: none;
+  background-color: white;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+
+.tpro-settings-body .checklist-item-state-complete .js-checkitem-name {
+  text-decoration: none !important;
+}
+
+.tpro-settings-body .checklist-item-state-complete img {
+  opacity: 1;
+}
+
+/* Tabs */
+ul.tpro-settings-tabs {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  width: auto;
+}
+ul.tpro-settings-tabs li {
+  background: none;
+  display: inline-block;
+  padding: 10px 15px;
+  margin: 0;
+  cursor: pointer;
+  font-weight: bold;
+  color: #7f8c8d;
+}
+ul.tpro-settings-tabs li:hover {
+  color: black;
+}
+ul.tpro-settings-tabs li.current {
+  color: black;
+  background-color: #D6DADC;
+}
+
+/* Section */
+.tpro-settings-section {
+  margin-top: 10px;
+  display: none;
+  position: relative;
+  /*margin-bottom: 100px;*/
+}
+.tpro-settings-section.current{
+  display: block;
+}
+
+/* About */
+.tpro-about ul {
+  list-style: disc outside none;
+  padding-left: 20px;
+}
+.tpro-about li {
+  display:list-item;
+}
+.tpro-about h2 {
+  margin-top: 10px;
+}
+.tpro-about h3 {
+  margin-top: 5px;
+}
+
+/* Radio Buttons */
+
+.tpro-settings-radio-group {
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+.tpro-settings-body input[type=radio] {
+  position:absolute;
+  z-index:-1000;
+  left:-1000px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height:1px;
+  width:1px;
+  margin:-1px;
+  padding:0;
+  border:0;
+}
+
+.tpro-settings-body input[type=radio] + label {
+  padding-left:21px;
+	height:16px;
+	display:inline-block;
+	line-height:16px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+  font-size: 12px;
+  font-weight: normal;
+	vertical-align:middle;
+	cursor:pointer;
+}
+
+.tpro-settings-body input[type=radio]:checked + label {
+  background-position: 0 -16px;
+}
+
+.tpro-settings-body label {
+  background-image:url('chrome-extension://__MSG_@@extension_id__/img/css/radio-buttons.png');
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

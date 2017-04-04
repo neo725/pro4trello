@@ -1,0 +1,6 @@
+.card-short-id.hide, .card-short-id {
+	display: inline-block !important;
+	font-weight: bold;
+  margin-right: 5px;
+  color: #2980b9;
+}
