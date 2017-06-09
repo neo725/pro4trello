@@ -23,6 +23,8 @@ TrelloPro.config = {
 	},
 
 	defaultSettings: {
+		'filters': {},
+
 		'parse-projects': false,
 		'parse-labels': false,
 		'parse-time-entries': false,
