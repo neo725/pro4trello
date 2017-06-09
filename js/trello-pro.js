@@ -588,6 +588,7 @@ TrelloPro.load = function () {
       TrelloPro.toggleCssInject('full-screen-cards');
       TrelloPro.toggleCssInject('hide-add-list');
       TrelloPro.toggleCssInject('beautify-markdown');
+      TrelloPro.toggleCssInject('compact-cards');
 
       // parsing on?
       let parsing_on = TrelloPro.settings['parse-projects']

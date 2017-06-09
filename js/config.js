@@ -40,6 +40,7 @@ TrelloPro.config = {
 		'full-screen-cards': false,
 		'custom-background': false,
 		'custom-background-input': '',
+		'compact-cards': false,
 		'show-list-stats': false,
 		'hide-add-list': false,
 		'custom-css': false,
