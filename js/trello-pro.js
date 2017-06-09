@@ -182,21 +182,10 @@ TrelloPro.buildSettingsPane = function () {
           $img.attr('src',$img.attr('src').replace('{$PATH}',imgRoot));
         });
 
-        // handle docs links
-        TrelloPro.$settingsPane.find('a.docsLink').each(function(){
-          let $link = jQuery(this);
-          $link.attr('href',$link.attr('href').replace('{$PATH}',docsRoot));
-        });
-
-        // attach tabs behaviur
-        TrelloPro.$settingsPane.find('ul.tpro-settings-tabs li').click(function(){
-          let $tab = $(this);
-
-          TrelloPro.$settingsPane.find('ul.tpro-settings-tabs li').removeClass('current');
-          TrelloPro.$settingsPane.find('.tpro-settings-section').removeClass('current');
-
-          $tab.addClass('current');
-          $("#"+$tab.attr('data-tab')).addClass('current');
+        // handle docs source
+        TrelloPro.$settingsPane.find('a').each(function(){
+          let $a = jQuery(this);
+          $a.attr('href',$a.attr('href').replace('{$PATH}',docsRoot));
         });
 
         // attach close button behaviour
@@ -236,13 +225,6 @@ TrelloPro.buildSettingsPane = function () {
           item.toggleClass('checklist-item-state-complete');
           if (item.hasClass('checklist-item-state-complete')) item.find('input[type="checkbox"]').attr('checked', 'checked');
           else item.find('input[type="checkbox"]').removeAttr('checked');
-        });
-
-        // attach version links behaviour
-        TrelloPro.$settingsPane.find('a.tpro-version-link').on('click',function() {
-          let version = jQuery(this).data('version');
-          window.open(chrome.extension.getURL('/docs/trello-pro-updated-to-'+version+'.html'), '_blank');
-          return false;
         });
 
         TrelloPro.$settingsPane.appendTo(jQuery('.board-canvas'));

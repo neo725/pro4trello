@@ -141,6 +141,13 @@ body.tpro-show-list-stats .list { border-top-left-radius: 0px; border-top-right-
   width: 100%;
 }
 
+.tpro-settings-links {
+  margin-bottom: 5px;
+}
+
+.tpro-settings-links a { text-decoration: underline; }
+.tpro-settings-links a:hover { color: #0079BF; }
+
 .tpro-settings-body {
   position: relative;
   height: 100%;
@@ -192,56 +199,6 @@ span.tpro-before-after {
 
 .tpro-settings-body .checklist-item-state-complete img {
   opacity: 1;
-}
-
-/* Tabs */
-ul.tpro-settings-tabs {
-  margin: 0px;
-  padding: 0px;
-  list-style: none;
-  width: auto;
-}
-ul.tpro-settings-tabs li {
-  background: none;
-  display: inline-block;
-  padding: 10px 15px;
-  margin: 0;
-  cursor: pointer;
-  font-weight: bold;
-  color: #7f8c8d;
-}
-ul.tpro-settings-tabs li:hover {
-  color: black;
-}
-ul.tpro-settings-tabs li.current {
-  color: black;
-  background-color: #D6DADC;
-}
-
-/* Section */
-.tpro-settings-section {
-  margin-top: 10px;
-  display: none;
-  position: relative;
-  /*margin-bottom: 100px;*/
-}
-.tpro-settings-section.current{
-  display: block;
-}
-
-/* About */
-.tpro-about ul {
-  list-style: disc outside none;
-  padding-left: 20px;
-}
-.tpro-about li {
-  display:list-item;
-}
-.tpro-about h2 {
-  margin-top: 10px;
-}
-.tpro-about h3 {
-  margin-top: 5px;
 }
 
 /* Radio Buttons */
