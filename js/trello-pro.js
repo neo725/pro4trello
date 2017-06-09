@@ -7,19 +7,19 @@ var TrelloPro = TrelloPro || {};
  * @param Boolean refreshData
  */
 TrelloPro.cardNameChange = function ($title,refreshData) {
-  var html = jQuery.trim($title.html());
+  let html = jQuery.trim($title.html());
   if (jQuery.trim($title.text()).length < 5) return;
   if (html.indexOf('<span class="tpro"></span>') > -1) return;
 
   // reference the card (parent)
-  var $card = $title.parents('.list-card');
+  let $card = $title.parents('.list-card');
 
   // wrap HTML and remove card number
-  var $htmlWrapper = jQuery('<div></div>').html(html);
-  var $projectNumber = $htmlWrapper.find('.card-short-id');
+  let $htmlWrapper = jQuery('<div></div>').html(html);
+  let $projectNumber = $htmlWrapper.find('.card-short-id');
   // if($projectNumber.length == 0) {
   //   //var cardNumber = $title.attr('href').split('/')[3].split('-')[0];
-  //   // var cardNumber = 't';
+  //   // let cardNumber = 't';
   //   // $projectNumber = jQuery('<span class="card-short-id hide">#'+cardNumber+'</span>');
   // }
   // else {
@@ -30,16 +30,16 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
 
   // delay
   setTimeout(function () {
-    var filterAttributes = [];
-    var filterProject = jQuery('#tpro-filter').attr('data-project');
-    var filterHide = false;
+    let filterAttributes = [];
+    let filterProject = jQuery('#tpro-filter').attr('data-project');
+    let filterHide = false;
 
     {
       // groups/projects
       if (TrelloPro.settings['parse-projects']) {
-        for(var i in TrelloPro.config.regex.tags) {
+        for(let i in TrelloPro.config.regex.tags) {
           html = html.replace(TrelloPro.config.regex.tags[i], function (match, capture) {
-            var project = TrelloPro.config.renderers.tags(capture);
+            let project = TrelloPro.config.renderers.tags(capture);
 
             // check filter
             if(filterProject != "" && filterProject != TrelloPro.renderAttrName(project)) filterHide = true;
@@ -53,7 +53,7 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
       // labels/tags
       if (TrelloPro.settings['parse-labels']) {
         html = html.replace(TrelloPro.config.regex.labels, function (match, capture) {
-          var label = TrelloPro.config.renderers.labels(capture);
+          let label = TrelloPro.config.renderers.labels(capture);
           filterAttributes.push('tpro-label-' + TrelloPro.renderAttrName(label));
           return '<div class="badge tpro-tag tpro-label">' + TrelloPro.config.symbols.label + ' ' + label + '</div>';
         });
@@ -75,9 +75,9 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
 
       // priority marks
       if (TrelloPro.settings['parse-priority-marks']) {
-        var priorityCount = (html.match(/\!/g) || []).length;
+        let priorityCount = (html.match(/\!/g) || []).length;
         if(priorityCount > 0) {
-          var priority = 'critical';
+          let priority = 'critical';
           switch(priorityCount) {
             case 1: priority = 'medium'; break;
             case 2: priority = 'high'; break;
@@ -99,14 +99,14 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
       $htmlWrapper.prepend('<span class="tpro"></span>');
 
       // get tags
-      var tags = [];
+      let tags = [];
       $htmlWrapper.find('.tpro-tag').each(function () {
         tags.push(jQuery(this));
       });
 
       // handle tags
       $card.find('.tpro-tag').remove();
-      for (var i in tags) {
+      for (let i in tags) {
         if(tags[i].hasClass('tpro-priority')) {
           $card.find('.badges').prepend(tags[i]);
           continue;
@@ -115,14 +115,14 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
       }
 
       // handle priority
-      var $priority = $htmlWrapper.find('.tpro-priority');
+      let $priority = $htmlWrapper.find('.tpro-priority');
       if($priority.length != 0) $priority.detach().appendTo($htmlWrapper);
 
       // apply filterAttributes
       $card.removeClass (function (index, css) {
         return (css.match (/(^|\s)tpro-\S+/g) || []).join(' ');
       });
-      for(var i in filterAttributes) $card.addClass(filterAttributes[i]);
+      for(let i in filterAttributes) $card.addClass(filterAttributes[i]);
     }
 
     // handle title & refresh data
@@ -136,9 +136,9 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
  * Loads current settings in the settings pane
  */
 TrelloPro.loadSettingsPane = function () {
-  for (var key in TrelloPro.settings) {
+  for (let key in TrelloPro.settings) {
     // try checkbox
-    var checkbox = TrelloPro.$settingsPane.find('input[type="checkbox"][name="' + key + '"]');
+    let checkbox = TrelloPro.$settingsPane.find('input[type="checkbox"][name="' + key + '"]');
     if (checkbox.length != 0) {
       if (TrelloPro.settings[key]) {
         checkbox.attr('checked', true);
@@ -151,13 +151,13 @@ TrelloPro.loadSettingsPane = function () {
       continue;
     }
     // try textarea
-    var textarea = TrelloPro.$settingsPane.find('textarea[name="' + key + '"]');
+    let textarea = TrelloPro.$settingsPane.find('textarea[name="' + key + '"]');
     if (textarea.length != 0) {
       textarea.val(TrelloPro.settings[key]);
       continue;
     }
     // try radio
-    var radio = TrelloPro.$settingsPane.find('input[type="radio"][name="' + key + '"][value="' + TrelloPro.settings[key] + '"]');
+    let radio = TrelloPro.$settingsPane.find('input[type="radio"][name="' + key + '"][value="' + TrelloPro.settings[key] + '"]');
     if(radio.length != 0) {
       radio.attr('checked',true);
       continue;
@@ -173,24 +173,24 @@ TrelloPro.buildSettingsPane = function () {
     TrelloPro.$settingsPane = jQuery('<div class="tpro-settings-wrapper" style="display:none"></div>');
     TrelloPro.$settingsPane.load(chrome.extension.getURL("tmpl/settings.html"), function () {
         // determine root paths
-        var imgRoot = chrome.extension.getURL('img');
-        var docsRoot = chrome.extension.getURL('docs');
+        let imgRoot = chrome.extension.getURL('img');
+        let docsRoot = chrome.extension.getURL('docs');
 
         // handle image sources
         TrelloPro.$settingsPane.find('img').each(function(){
-          var $img = jQuery(this);
+          let $img = jQuery(this);
           $img.attr('src',$img.attr('src').replace('{$PATH}',imgRoot));
         });
 
         // handle docs links
         TrelloPro.$settingsPane.find('a.docsLink').each(function(){
-          var $link = jQuery(this);
+          let $link = jQuery(this);
           $link.attr('href',$link.attr('href').replace('{$PATH}',docsRoot));
         });
 
         // attach tabs behaviur
         TrelloPro.$settingsPane.find('ul.tpro-settings-tabs li').click(function(){
-          var $tab = $(this);
+          let $tab = $(this);
 
           TrelloPro.$settingsPane.find('ul.tpro-settings-tabs li').removeClass('current');
           TrelloPro.$settingsPane.find('.tpro-settings-section').removeClass('current');
@@ -209,12 +209,12 @@ TrelloPro.buildSettingsPane = function () {
         TrelloPro.$settingsPane.find('.tpro-settings-save').on('click', function () {
           // handle checkboxes
           TrelloPro.$settingsPane.find('input[type="checkbox"]').each(function () {
-            var checkbox = jQuery(this);
+            let checkbox = jQuery(this);
             TrelloPro.settings[checkbox.attr('name')] = checkbox.prop('checked');
           });
           // handle text area inputs
           TrelloPro.$settingsPane.find('textarea').each(function () {
-            var textarea = jQuery(this);
+            let textarea = jQuery(this);
             TrelloPro.settings[textarea.attr('name')] = textarea.val();
           });
           // handle select/radio buttons
@@ -223,7 +223,7 @@ TrelloPro.buildSettingsPane = function () {
             TrelloPro.settings[radio.attr('name')] = radio.val();
           });
           // update settings
-          var settings = {};
+          let settings = {};
           settings[TrelloPro.boardId] = TrelloPro.settings;
           chrome.storage.sync.set(settings, function () {
             window.location.reload();
@@ -232,7 +232,7 @@ TrelloPro.buildSettingsPane = function () {
 
         // attach checkbox item behavior
         TrelloPro.$settingsPane.find('.checklist-item-checkbox').on('click', function () {
-          var item = jQuery(this).parents('.checklist-item');
+          let item = jQuery(this).parents('.checklist-item');
           item.toggleClass('checklist-item-state-complete');
           if (item.hasClass('checklist-item-state-complete')) item.find('input[type="checkbox"]').attr('checked', 'checked');
           else item.find('input[type="checkbox"]').removeAttr('checked');
@@ -240,7 +240,7 @@ TrelloPro.buildSettingsPane = function () {
 
         // attach version links behaviour
         TrelloPro.$settingsPane.find('a.tpro-version-link').on('click',function() {
-          var version = jQuery(this).data('version');
+          let version = jQuery(this).data('version');
           window.open(chrome.extension.getURL('/docs/trello-pro-updated-to-'+version+'.html'), '_blank');
           return false;
         });
@@ -253,7 +253,7 @@ TrelloPro.buildSettingsPane = function () {
  * Builds the TrelloPro menu
  */
 TrelloPro.buildMenu = function () {
-  var $button = jQuery('<a id="tpro-filter-trigger" class="board-header-btn calendar-btn" href="#"><span class="icon-sm icon-board board-header-btn-icon"></span><span class="board-header-btn-text u-text-underline">Pro4Trello</span></a>');
+  let $button = jQuery('<a id="tpro-filter-trigger" class="board-header-btn calendar-btn" href="#"><span class="icon-sm icon-board board-header-btn-icon"></span><span class="board-header-btn-text u-text-underline">Pro4Trello</span></a>');
   $button.on('click', function () {
     if (TrelloPro.$settingsPane.is(':visible')) {
       TrelloPro.$settingsPane.fadeOut(150);
@@ -275,20 +275,20 @@ TrelloPro.buildMenu = function () {
  */
 TrelloPro.buildProjectFilter = function () {
   // create menu item
-  var $menuItem = jQuery('<a class="board-header-btn" href="#"></a>');
-  var $filter = jQuery('<span id="tpro-filter" data-project="" class="board-header-btn-text u-text-underline">All</span>');
+  let $menuItem = jQuery('<a class="board-header-btn" href="#"></a>');
+  let $filter = jQuery('<span id="tpro-filter" data-project="" class="board-header-btn-text u-text-underline">All</span>');
   $menuItem.append('<span class="board-header-btn-icon icon-sm icon-filter"></span>');
   $menuItem.append(jQuery('<span class="board-header-btn-text"><span>Show: </span></span>').append($filter));
 
   // add behaviour
   $menuItem.on('click',function(e){
-    var $popup = jQuery('#tpro-filter-popup');
-    var $this = jQuery(this);
+    let $popup = jQuery('#tpro-filter-popup');
+    let $this = jQuery(this);
     if($popup.is(':visible')) { $popup.hide(); }
     else {
       // render project data
-      var $list = $popup.find('ul.pop-over-list').html("");
-      var selected = jQuery('#tpro-filter').attr('data-project');
+      let $list = $popup.find('ul.pop-over-list').html("");
+      let selected = jQuery('#tpro-filter').attr('data-project');
       for(project of TrelloPro.projects) {
         let $a = jQuery(
           '<a class="js-select light-hover" data-project="'+project.key+'" href="#">'
@@ -302,7 +302,7 @@ TrelloPro.buildProjectFilter = function () {
 
       // attach filter behaviour
       $list.find('li a').on('click',function(evt){
-        var $this = jQuery(this);
+        let $this = jQuery(this);
 
         $filter.attr('data-project',$this.data().project);
         $filter.text($this.text());
@@ -352,13 +352,14 @@ TrelloPro.buildProjectFilter = function () {
 
   jQuery('.board-header-btns.mod-left').append($menuItem);
   jQuery('body').append($filterPopup);
+  //jQuery('.list-card').removeClass('tpro-filter-hide');
 }
 
 /**
  * Builds the Labels Filter
  */
 TrelloPro.buildLabelsFilter = function () {
-  var $menuItem = jQuery('<a class="board-header-btn" href="#"></a>');
+  let $menuItem = jQuery('<a class="board-header-btn" href="#"></a>');
   $menuItem.append('<span class="board-header-btn-icon icon-sm icon-label"></span>');
   $menuItem.append('<span class="board-header-btn-text">Tags: <span style="text-decoration: underline">All</span></span>');
 
@@ -407,10 +408,10 @@ TrelloPro.buildListStats = function($list,list) {
  */
 TrelloPro.refreshData = function() {
     // just a sorting function
-    var sorter = function(a,b) { return a.key.localeCompare(b.key); }
+    let sorter = function(a,b) { return a.key.localeCompare(b.key); }
 
     // get all lists
-    var lists = [];
+    let lists = [];
     jQuery('.list').each(function(){
       let $this = jQuery(this);
       let list = {};
@@ -579,11 +580,11 @@ TrelloPro.load = function () {
 
       // custom background
       if (TrelloPro.settings['custom-background'] && TrelloPro.settings['custom-background-input'] != "") {
-        var $customBackgroundStyle = jQuery('<style id="tpro-custom-background-css">body { background-image: url("'+TrelloPro.settings['custom-background-input']+'") !important }</style>');
+        let $customBackgroundStyle = jQuery('<style id="tpro-custom-background-css">body { background-image: url("'+TrelloPro.settings['custom-background-input']+'") !important }</style>');
         jQuery('body').append($customBackgroundStyle);
       }
       else {
-        var $customBackgroundStyle = jQuery("#tpro-custom-background-css");
+        let $customBackgroundStyle = jQuery("#tpro-custom-background-css");
         while(true) {
           $customBackgroundStyle.remove();
           $customBackgroundStyle = jQuery("#tpro-custom-background-css");
@@ -601,6 +602,7 @@ TrelloPro.load = function () {
       TrelloPro.buildMenu();
       if(TrelloPro.settings['parse-projects']) TrelloPro.buildProjectFilter();
       else jQuery('#tpro-filter-trigger').remove();
+
       //TrelloPro.buildLabelsFilter();
     });
 
@@ -643,8 +645,8 @@ TrelloPro.load = function () {
 
 // catch title changes
 jQuery('title').bind("DOMSubtreeModified",function(){
-  var title = jQuery.trim(jQuery(this).text());
-  var path = window.location.href.split('/');
+  let title = jQuery.trim(jQuery(this).text());
+  let path = window.location.href.split('/');
 
   if(path[3] != 'b') return; // works for boards only, not cards
   if(title == TrelloPro.boardTitle) return;
