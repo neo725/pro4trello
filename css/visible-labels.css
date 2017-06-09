@@ -15,6 +15,9 @@
   margin-right: 2px;
   text-align: center;
   font-family: arial !important;
+  font-weight: 300 !important;
+  letter-spacing: 0.6px !important;
+  text-shadow: none !important;
 }
 
 body.tpro-card-labels-size-small .list-card-labels .card-label {
@@ -31,13 +34,3 @@ body.tpro-card-labels-size-large .list-card-labels .card-label {
   font-size: 12px;
   line-height: 15px;
 }
-
-.list-card-labels .card-label.card-label-green { text-shadow: 1px 1px darkgreen }
-.list-card-labels .card-label.card-label-yellow { text-shadow: 1px 1px dimgrey; }
-.list-card-labels .card-label.card-label-orange { text-shadow: 1px 1px darkorange }
-.list-card-labels .card-label.card-label-red { text-shadow: 1px 1px crimson; }
-.list-card-labels .card-label.card-label-purple { text-shadow: 1px 1px rebeccapurple; }
-.list-card-labels .card-label.card-label-blue { text-shadow: 1px 1px darkblue; }
-.list-card-labels .card-label.card-label-pink { text-shadow: 1px 1px hotpink; }
-.list-card-labels .card-label.card-label-lime { text-shadow: 1px 1px limegreen; }
-.list-card-labels .card-label.card-label-black { text-shadow: 1px 1px black; }
