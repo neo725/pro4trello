@@ -1,5 +1,35 @@
 var TrelloPro = TrelloPro || {};
 
+TrelloPro.util = {
+
+  /**
+	 * Converts a string to its HTML characters completely.
+	 *
+	 * @param {String} str String with unescaped HTML characters
+	 */
+	htmlEncode : function(str) {
+		var buf = [];
+
+		for (var i=str.length-1;i>=0;i--) {
+			buf.unshift(['&#', str[i].charCodeAt(), ';'].join(''));
+		}
+
+		return buf.join('');
+	},
+
+	/**
+	 * Converts an html characterSet into its original character.
+	 *
+	 * @param {String} str htmlSet entities
+	 */
+	htmlDecode : function(str) {
+		return str.replace(/&#(\d+);/g, function(match, dec) {
+			return String.fromCharCode(dec);
+		});
+	}
+
+};
+
 /**
  * Handles card name change event for a specific card
  *
@@ -477,7 +507,9 @@ TrelloPro.refreshData = function() {
  * @return string
  */
 TrelloPro.renderAttrName = function(name) {
-  return name.toLowerCase().replace(/\(.+?\)/g, '').replace(/[^a-z0-9+]+/gi, '-');
+  return name.toLowerCase()
+    .replace('&amp;','and').replace('&','and')
+    .replace(/\(.+?\)/g, '').replace(/[^a-z0-9+]+/gi, '-');
 }
 
 /**
