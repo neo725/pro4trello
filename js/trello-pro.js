@@ -519,24 +519,23 @@ TrelloPro.load = function () {
         || TrelloPro.settings['parse-points']
       ) {
           // run card name processing on all cards
-          jQuery('.list-card-title').each(function () {
-              TrelloPro.cardNameChange(jQuery(this),false); // TODO: check if this "false" works here??
-            });
+          let $initCards = jQuery('.list-card-title');
+          for(let i=0; i<$initCards.length; i++) {
+            TrelloPro.cardNameChange(jQuery($initCards[i]),false);
+          }
 
           // // bind card name processing to name changes
           // jQuery('body').on('DOMSubtreeModified', '.list-card-title', function () {
           //     TrelloPro.cardNameChange(jQuery(this),true);
           // });
 
-          // bind card name processing to list changes [delay: 2s]
-          setTimeout(function(){
-            jQuery('body').on('DOMNodeInserted', '.list-card', function () {
-              $card = jQuery(this);
-              if ($card.hasClass('placeholder')) return;
-              if ($card.css('position') == 'absolute') return;
-              TrelloPro.cardNameChange($card.find('.list-card-title'),true);
-            });
-          },2000);
+          // bind card name processing to list changes
+          jQuery('body').on('DOMNodeInserted', '.list-card', function () {
+            $card = jQuery(this);
+            if ($card.hasClass('placeholder')) return;
+            if ($card.css('position') == 'absolute') return;
+            TrelloPro.cardNameChange($card.find('.list-card-title'),true);
+          });
         }
 
       // refresh data
