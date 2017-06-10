@@ -41,6 +41,8 @@ At any time you can activate the following tweaks for any board:
 
 **List Stats** - you can now have an awesome status bar on the top of your lists, it's just fantastic!
 
+**Compact Boards** - you can make your boards more compact, a very useful feature when you have tons of cards.
+
 **Hide "Add a list..." input** - you can now hide that unused input that just takes up space and forces the bottom scroll bar to appear
 
 **Custom CSS** - if you know what you're doing and you know a way to make Trello look even better, this one's for you. Just paste your CSS and save, it will be loaded to your board.

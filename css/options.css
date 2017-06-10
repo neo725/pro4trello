@@ -1,0 +1,43 @@
+.tpro-setting input[type=checkbox] { display:none; }
+.tpro-setting input[type=checkbox] + label:before {
+  font-family: FontAwesome;
+  display: inline-block;
+}
+
+.tpro-setting input[type=checkbox] + label:before { content: "\f096"; color: #7f8c8d; }
+.tpro-setting input[type=checkbox] + label:before { letter-spacing: 10px; }
+
+.tpro-setting input[type=radio] + label:before { color: #7f8c8d; }
+.tpro-setting input[type=radio] + label:before { letter-spacing: 10px; }
+
+.tpro-setting input[type=checkbox]:checked + label:before { content: "\f046"; color: #2c3e50; }
+.tpro-setting input[type=checkbox]:checked + label:before { letter-spacing: 5px; }
+
+.tpro-setting input[type=radio]:checked + label:before { color: #2c3e50; }
+.tpro-setting input[type=radio]:checked + label:before { letter-spacing: 5px; }
+
+.tpro-setting label {
+  color: #7f8c8d;
+  cursor: pointer;
+}
+
+.tpro-setting label:hover {
+  color: #2c3e50;
+}
+
+.tpro-setting input[type=text], .tpro-setting textarea {
+  margin-left: 20px;
+  width: 100%;
+}
+
+.tpro-setting .radio-group {
+  margin-left: 20px;
+}
+
+.tpro-setting .radio-group input {
+  display: inline;
+}
+
+.tpro-setting .radio-group label {
+  display: inline;
+}

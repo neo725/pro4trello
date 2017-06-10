@@ -6,7 +6,8 @@
     "name": "Pro for Trello, FREE Trello tweaks",
     "short_name": "Pro for Trello",
     "description": "Ultimate FREE tweaks for Trello users! Your Trello boards on steroids!",
-    "version": "2.1",
+    "version": "2.2",
+    "options_page": "options.html",
 
     "icons": {
         "16": "img/16x16.png",
