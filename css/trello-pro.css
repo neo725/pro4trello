@@ -61,7 +61,7 @@ body.tpro-show-list-stats .list { border-top-left-radius: 0px; border-top-right-
   border-top-left-radius: 3px;
   border-top-right-radius: 3px;
   margin-bottom: 0px;
-  height: 25px;
+  height: 35px;
   padding-top: 5px;
   padding-right: 10px;
   text-align: right;
@@ -91,8 +91,8 @@ body.tpro-show-list-stats .list { border-top-left-radius: 0px; border-top-right-
 }
 
 .tpro-list-stats .progress-bar-wrapper {
-  float: left;
-	width: 150px;
+  /*float: left;*/
+	width: 250px;
   height: 10px;
   padding: 5px;
   padding-top: 7px;

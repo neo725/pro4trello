@@ -42,6 +42,7 @@ TrelloPro.config = {
 		'custom-background-input': '',
 		'compact-cards': false,
 		'show-list-stats': false,
+		'show-list-stats-progressbar': false,
 		'hide-add-list': false,
 		'custom-css': false,
 		'custom-css-input': ''
