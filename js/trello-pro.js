@@ -441,28 +441,59 @@ TrelloPro.buildListStats = function($list,list) {
   let $stats = $list.parent().find('.tpro-list-stats');
   if($stats.length == 0) {
     $stats = jQuery('<div class="tpro-list-stats"></div>');
+
+		// card count
+		$stats.prepend(
+	    '<span class="tpro-stat count" title="Total cards">'
+	      +'<i class="fa fa-hashtag" aria-hidden="true"></i> '
+	      +'<span></span>'
+	    +'</span>'
+	  );
+
+		// tasks count
+	  $stats.prepend(
+	    '<span class="tpro-stat checklist" title="Checklist Tasks">'
+	      +'<i class="fa fa-check-square-o" aria-hidden="true"></i> '
+	      +'<span></span>'
+	    +'</span>');
+
+	  // points
+	  if(TrelloPro.settings['parse-points']) {
+			$stats.prepend(
+		    '<span class="tpro-stat points" title="Total Points">'
+		      +'<i class="fa fa-star" aria-hidden="true"></i> '
+		      +'<span></span>'
+		    +'</span>');
+	  }
+
+		// progress bar
+		$stats.prepend(
+			'<div class="progress-bar-wrapper">'
+				+'<div class="checklist-progress">'
+					+'<span class="checklist-progress-percentage">0%</span>'
+					+'<div class="checklist-progress-bar">'
+						+'<div class="checklist-progress-bar-current" style="width: 0%;"></div>'
+					+'</div>'
+				+'</div>'
+			+'</div>');
     $stats.insertBefore($list);
-  } else $stats.html('');
+  }
 
   // card count
-  $stats.prepend(
-    '<span class="tpro-stat count" title="Total cards">'
-      +'<i class="fa fa-hashtag" aria-hidden="true"></i> '
-      +list.totalCards
-    +'</span>'
-  );
+	$stats.find('.tpro-stat.count span').text(list.totalCards);
 
   // tasks count
-  $stats.prepend(
-    '<span class="tpro-stat checklist" title="Checklist Tasks">'
-      +'<i class="fa fa-check-square-o" aria-hidden="true"></i> '
-      +list.completedTasks + '/' + list.totalTasks
-    +'</span>');
+	$stats.find('.tpro-stat.checklist span').text(list.completedTasks + '/' + list.totalTasks);
 
   // points
   if(TrelloPro.settings['parse-points']) {
-    $stats.prepend('<span class="tpro-stat points" title="Total points"><i class="fa fa-star" aria-hidden="true"></i> ' + list.totalPoints + '</span>');
+		$stats.find('.tpro-stat.points span').text(list.totalPoints);
   }
+
+	// progress bar
+	let percentage = (list.totalTasks == 0) ? 100 : Math.floor((list.completedTasks*100)/list.totalTasks);
+	$stats.find('.checklist-progress-bar-current').css('width',percentage+'%');
+	$stats.find('.checklist-progress-percentage').text(percentage+'%');
 }
 
 /**
@@ -667,7 +698,7 @@ TrelloPro.load = function () {
     TrelloPro.toggleCssInject('visible-card-numbers');
     TrelloPro.toggleCssInject('visible-labels');
     TrelloPro.toggleCssInject('hide-activity-entries');
-    TrelloPro.toggleCssInject('full-screen-cards');
+    //TrelloPro.toggleCssInject('full-screen-cards');
     TrelloPro.toggleCssInject('hide-add-list');
     TrelloPro.toggleCssInject('beautify-markdown');
     TrelloPro.toggleCssInject('compact-cards');
