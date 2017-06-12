@@ -3,6 +3,7 @@ var TrelloPro = TrelloPro || {};
 // init
 TrelloPro.boardId = null;
 TrelloPro.boardTitle = null;
+TrelloPro.loaded = false;
 TrelloPro.settingsOverride = false;
 TrelloPro.$dynamicStyles = null;
 TrelloPro.settings = {};
@@ -50,6 +51,8 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
   let html = jQuery.trim($title.html());
   if (jQuery.trim($title.text()).length < 5) return;
   if (html.indexOf('<span class="tpro"></span>') > -1) return;
+
+	//console.log('!?');
 
   // reference the card (parent)
   let $card = $title.parents('.list-card');
@@ -424,14 +427,14 @@ TrelloPro.buildProjectFilter = function () {
  * Builds the Labels Filter
  */
 TrelloPro.buildLabelsFilter = function () {
-  let $menuItem = jQuery('<a class="board-header-btn" href="#"></a>');
-  $menuItem.append('<span class="board-header-btn-icon icon-sm icon-label"></span>');
-  $menuItem.append('<span class="board-header-btn-text">Tags: <span style="text-decoration: underline">All</span></span>');
+	let $menuItem = jQuery('<a class="board-header-btn" href="#"></a>');
+	$menuItem.append('<span class="board-header-btn-icon icon-sm icon-label"></span>');
+	$menuItem.append('<span class="board-header-btn-text">Tags: <span style="text-decoration: underline">All</span></span>');
 
-    // TODO: implement
+  // TODO: implement
 
-    jQuery('.board-header-btns.mod-left').append($menuItem);
-  }
+  jQuery('.board-header-btns.mod-left').append($menuItem);
+}
 
 /**
  * Builds stats for a list
@@ -517,6 +520,8 @@ TrelloPro.buildListStats = function($list,list) {
  * Refreshes data for the current board
  */
 TrelloPro.refreshData = function() {
+	if(!TrelloPro.loaded) return;
+
   // just a sorting function
   let sorter = function(a,b) { return a.key.localeCompare(b.key); }
 
@@ -672,6 +677,9 @@ TrelloPro.saveSettings = function() {
  * Loads everything
  */
 TrelloPro.load = function () {
+	// load for boards only
+	if(window.location.href.split('/')[3] != 'b') return;
+
   // get board ID and title
   let boardId = window.location.href.split('/')[4];
   let boardTitle = jQuery.trim(jQuery('title').text());
@@ -679,28 +687,24 @@ TrelloPro.load = function () {
 	// prevent double loading
 	if(TrelloPro.boardId == boardId) return;
 
+	// re-init for current board
 	TrelloPro.boardId = boardId;
   TrelloPro.boardTitle = boardTitle;
+	TrelloPro.loaded = false;
 
-  // introduce dynamic styles
-  TrelloPro.$dynamicStyles = jQuery('<style id="tpro-dynamic-css"></style>').appendTo(jQuery('body'));
-
-  // introduce font awesome
-  if(jQuery('#trello-pro-font-awesome').length == 0) {
-    jQuery('body').append('<link id="trello-pro-font-awesome" href="'+chrome.extension.getURL("lib/font-awesome/css/font-awesome.min.css")+'" rel="stylesheet">');
-  }
+	//console.log('Pro4Trello: Loading board ' + boardId + '.');
 
   // load settings
   TrelloPro.settings = TrelloPro.config.defaultSettings;
   chrome.storage.sync.get(['defaults',TrelloPro.boardId], function (settings) {
-		// look for board-specific settings
+		// set board-specific settings flag
 		TrelloPro.settingsOverride = settings[TrelloPro.boardId] ? true : false;
 
 		// get defaults and board-specific settings
 		let defaults = settings['defaults'] ? settings['defaults'] : {};
 		let boardSettings = settings[TrelloPro.boardId] ? settings[TrelloPro.boardId] : {};
 
-		// apply settings
+		// merge settings
 		TrelloPro.settings = jQuery.extend({}, TrelloPro.settings, defaults);
 		TrelloPro.settings = jQuery.extend({}, TrelloPro.settings, boardSettings);
 
@@ -743,6 +747,8 @@ TrelloPro.load = function () {
     TrelloPro.toggleCssInject('beautify-markdown');
     TrelloPro.toggleCssInject('compact-cards');
 
+		TrelloPro.loaded = true;
+
     // parsing on?
     let parsing_on = TrelloPro.settings['parse-projects']
       || TrelloPro.settings['parse-labels']
@@ -755,14 +761,6 @@ TrelloPro.load = function () {
       for(let i=0; i<$initCards.length; i++) {
         TrelloPro.cardNameChange(jQuery($initCards[i]),false);
       }
-
-      // bind card name processing to card changes
-      jQuery(document).on('DOMNodeInserted', '.list-card', function () {
-        $card = jQuery(this);
-        if ($card.hasClass('placeholder')) return;
-        if ($card.css('position') == 'absolute') return;
-        TrelloPro.cardNameChange($card.find('.list-card-title'),true);
-      });
     }
 
     setTimeout(function(){
@@ -772,87 +770,136 @@ TrelloPro.load = function () {
       if(TrelloPro.settings['parse-projects']) TrelloPro.buildProjectFilter();
       //TrelloPro.buildLabelsFilter();
       TrelloPro.rebuildDynamicStyles();
-
-      // trigger data refresh every 7.5 seconds
-      (refresh = function() { TrelloPro.refreshData(); setTimeout(refresh,7500); })();
     },1000);
-  });
-
-  // bind ESC key
-  jQuery(document).bind('keyup', function(e) {
-  	if(e.keyCode === 27) {
-
-      // filter popup
-  		let $popup = jQuery('#tpro-filter-popup');
-      if($popup.is(':visible')) {
-        $popup.hide();
-        return;
-      }
-
-      // settings
-      let $settings = jQuery('.tpro-settings-wrapper');
-      if($settings.is(':visible')) {
-        $settings.find('.tpro-settings-close').click();
-        return;
-      }
-
-  	}
-  });
-
-  // bind mouse click
-  jQuery(document).bind('mouseup', function (e){
-
-    // filter popup
-    let $popup = jQuery('#tpro-filter-popup');
-    if (!$popup.is(e.target) && $popup.has(e.target).length === 0) {
-        $popup.hide();
-        return;
-    }
-
   });
 }
 
-// catch board changes
-jQuery('title').bind("DOMSubtreeModified",function(){
-  let title = jQuery.trim(jQuery(this).text());
-  let path = window.location.href.split('/');
+/**
+ * Initializes the content script
+ */
+let tpro = function(){
 
-  if(path[3] != 'b') return; // works for boards only, not cards
-  if(title == TrelloPro.boardTitle) return;
-  if(TrelloPro.boardId == path[4]) return;
+	// introduce dynamic styles
+  TrelloPro.$dynamicStyles = jQuery('<style id="tpro-dynamic-css"></style>').appendTo(jQuery('body'));
 
-  TrelloPro.load();
-});
+  // introduce font awesome
+  if(jQuery('#trello-pro-font-awesome').length == 0) {
+    jQuery('body').append('<link id="trello-pro-font-awesome" href="'+chrome.extension.getURL("lib/font-awesome/css/font-awesome.min.css")+'" rel="stylesheet">');
+  }
 
-jQuery(function(){
-	// start the magic (for boards only)
-  if(window.location.href.split('/')[3] == 'b') {
-		// inject special event tracker
-		let $changeTrigger = jQuery('<input type="hidden" id="trpo-history-state-change-trigger" value="" />');
-		jQuery('body')
-			.append($changeTrigger)
-			.append(
-				'<script type="text/javascript">'
-					+'window.history.replaceState = function(){'
-						+' let input = document.getElementById("trpo-history-state-change-trigger");'
-						+' input.value = "history.replaceState";'
-						+' let e = document.createEvent("HTMLEvents"); e.initEvent("change", false, true); input.dispatchEvent(e);'
-					+'}'
-				+'</script>'
-			);
+	// bind ESC key
+	jQuery(document).bind('keyup', function(e) {
+		if(!TrelloPro.loaded) return;
 
-		$changeTrigger.on('change',function(){
-			switch (jQuery(this).val()) {
-				case 'history.replaceState':
-					// refresh data after Trello filter replaces state
-					setTimeout(TrelloPro.refreshData,54)
-					return;
+		if(e.keyCode === 27) {
+
+			// filter popup
+			let $popup = jQuery('#tpro-filter-popup');
+			if($popup.is(':visible')) {
+				$popup.hide();
+				return;
 			}
-		});
 
-		// start loading the extension
-		TrelloPro.load();
-	}
+			// settings
+			let $settings = jQuery('.tpro-settings-wrapper');
+			if($settings.is(':visible')) {
+				$settings.find('.tpro-settings-close').click();
+				return;
+			}
+
+		}
+	});
+
+	// bind mouse click
+	jQuery(document).bind('mouseup', function (e){
+		if(!TrelloPro.loaded) return;
+
+		// filter popup
+		let $popup = jQuery('#tpro-filter-popup');
+		if (!$popup.is(e.target) && $popup.has(e.target).length === 0) {
+				$popup.hide();
+				return;
+		}
+	});
+
+	// catch board changes
+	jQuery('title').bind("DOMSubtreeModified",function(){
+	  let title = jQuery.trim(jQuery(this).text());
+	  let path = window.location.href.split('/');
+
+	  if(path[3] != 'b') return; // works for boards only, not cards
+
+		// check if board was changed
+	  if(title == TrelloPro.boardTitle || TrelloPro.boardId == path[4]) {
+			TrelloPro.loaded = true; // unlock everything
+			return;
+		}
+
+	  TrelloPro.load();
+	});
+
+	// bind card name processing to card title changes
+	jQuery(document).on('DOMSubtreeModified', '.list-card-title', function (e) {
+		//if(!TrelloPro.loaded) return;
+		let $card = jQuery(this).parents('.list-card');
+		if ($card.hasClass('placeholder')) return;
+		if ($card.css('position') == 'absolute') return;
+		TrelloPro.cardNameChange($card.find('.list-card-title'),true);
+	});
+
+	// bind card name processing to card list changes
+	jQuery(document).bind('DOMNodeInserted', function(e) {
+		if(!TrelloPro.loaded) return;
+		let $card = jQuery(e.target);
+		if(!$card.hasClass('list-card')) return;
+		if ($card.hasClass('placeholder')) return;
+		if ($card.css('position') == 'absolute') return;
+		TrelloPro.cardNameChange($card.find('.list-card-title'),true);
+	});
+
+	// inject special event tracker
+	let $changeTrigger = jQuery('<input type="hidden" id="trpo-history-state-change-trigger" value="" />');
+	jQuery('body')
+		.append($changeTrigger)
+		.append(
+			'<script type="text/javascript"> '
+				+'var tproEvent = document.getElementById("trpo-history-state-change-trigger"); '
+				+'let replaceStateOrigin = history.replaceState; '
+				+'history.replaceState = function(state){ '
+					+'tproEvent.value = "history.replaceState"; '
+					+'let e = document.createEvent("HTMLEvents"); e.initEvent("change", false, true); tproEvent.dispatchEvent(e); '
+					+'replaceStateOrigin.apply(history, arguments); '
+				+'}; '
+				+'let pushStateOrigin = history.pushState; '
+				+'history.pushState = function(state){ '
+					+'tproEvent.value = "history.pushState"; '
+					+'let e = document.createEvent("HTMLEvents"); e.initEvent("change", false, true); tproEvent.dispatchEvent(e); '
+					+'pushStateOrigin.apply(history, arguments); '
+				+'}'
+			+'</script>'
+		);
+
+	// handle events
+	$changeTrigger.on('change',function(){
+		if(!TrelloPro.loaded) return;
+		let evt = jQuery(this).val();
+		switch (evt) {
+			case 'history.replaceState':
+				// refresh data after Trello filter replaces state
+				setTimeout(TrelloPro.refreshData,54);
+				return;
+			case 'history.pushState':
+				// lock everything
+				TrelloPro.loaded = false;
+				return;
+		}
+	});
+
+	// start loading the extension
+	TrelloPro.load();
+
+	// trigger data refresh every 7.5 seconds
+	(refresh = function() { TrelloPro.refreshData(); setTimeout(refresh,7500); })();
 
 	// // check if a card is opened directly
 	// if(window.location.href.split('/')[3] == 'c') {
@@ -872,4 +919,6 @@ jQuery(function(){
 	//     else TrelloPro.load();
 	//   });
 	// }
-});
+};
+
+tpro();
