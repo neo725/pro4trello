@@ -1,7 +1,8 @@
 var TrelloPro = TrelloPro || {};
 
 // init
-TrelloPro.engaged = false;
+TrelloPro.boardId = null;
+TrelloPro.boardTitle = null;
 TrelloPro.settingsOverride = false;
 TrelloPro.$dynamicStyles = null;
 TrelloPro.settings = {};
@@ -671,13 +672,15 @@ TrelloPro.saveSettings = function() {
  * Loads everything
  */
 TrelloPro.load = function () {
-	// prevent double loading
-	if(TrelloPro.engaged) return;
-	TrelloPro.engaged = true;
-
   // get board ID and title
-  TrelloPro.boardId = window.location.href.split('/')[4];
-  TrelloPro.boardTitle = jQuery.trim(jQuery('title').text());
+  let boardId = window.location.href.split('/')[4];
+  let boardTitle = jQuery.trim(jQuery('title').text());
+
+	// prevent double loading
+	if(TrelloPro.boardId == boardId) return;
+
+	TrelloPro.boardId = boardId;
+  TrelloPro.boardTitle = boardTitle;
 
   // introduce dynamic styles
   TrelloPro.$dynamicStyles = jQuery('<style id="tpro-dynamic-css"></style>').appendTo(jQuery('body'));
