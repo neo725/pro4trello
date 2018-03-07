@@ -21,7 +21,6 @@
 }
 
 .tpro-hashtag {
-  font-weight:bold;
   color: #2980b9;
 }
 
@@ -286,10 +285,15 @@ span.tpro-before-after {
   user-select: none;
 }
 
-.tpro-settings-container {
+.tpro-settings-container, .tpro-settings-info {
   width:100%;
   height: 100%;
   border: none;
+}
+
+.tpro-settings-info {
+  padding-top: 20px;
+  text-align: center;
 }
 
 .tpro-settings-banner {
