@@ -13,7 +13,7 @@ TrelloPro.config = {
 	renderers: {
 		tags: function(capture) { return capture.replace(' :: ','').replace(' | ',''); },
 		labels: function(capture) { return capture.replace('[','').replace(']',''); },
-		hashtags: function(capture) { return capture },
+		hashtags: function(capture) { return ' ' +capture },
 		time_entries: function(capture) { return capture.replace('{','').replace('}',''); },
 		points: function(capture) { return capture.split('|').join(''); }
 	},

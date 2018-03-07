@@ -96,7 +96,7 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
     }
 
 		// hashtags
-    if (TrelloPro.settings['parse-hashtags']) {    
+    if (TrelloPro.settings['parse-hashtags']) {
 			html = html.replace(TrelloPro.config.regex.hashtags, function (match, capture) {
 				let hashtag = TrelloPro.config.renderers.hashtags(capture);
 				filterAttributes.push('tpro-hashtag-' + TrelloPro.renderAttrName(hashtag.replace('#','')));
@@ -185,11 +185,13 @@ TrelloPro.loadSettingsPane = function () {
 			.attr('checked','checked')
 			.parents('.switch').css('background','#2ecc71');
 		TrelloPro.$settingsPane.find('.tpro-settings-container').show();
+		TrelloPro.$settingsPane.find('.tpro-settings-info').hide();
 	} else {
 		TrelloPro.$settingsPane.find('input[name="board-override"]')
 			.removeAttr('checked')
 			.parents('.switch').css('background','#BDB9A6');
 		TrelloPro.$settingsPane.find('.tpro-settings-container').hide();
+		TrelloPro.$settingsPane.find('.tpro-settings-info').show();
 	}
 
 	// load settings
@@ -205,7 +207,7 @@ TrelloPro.buildSettingsPane = function () {
     TrelloPro.$settingsPane.load(chrome.runtime.getURL("tmpl/settings.html"), function () {
         // determine root paths
         let imgRoot = chrome.runtime.getURL('img');
-        let docsRoot = chrome.runtime.getURL('docs');
+        let root = chrome.runtime.getURL('');
 
         // handle image sources
         TrelloPro.$settingsPane.find('img').each(function(){
@@ -213,10 +215,10 @@ TrelloPro.buildSettingsPane = function () {
           $img.attr('src',$img.attr('src').replace('{$PATH}',imgRoot));
         });
 
-        // handle docs source
+        // handle links source
         TrelloPro.$settingsPane.find('a').each(function(){
           let $a = jQuery(this);
-          $a.attr('href',$a.attr('href').replace('{$PATH}',docsRoot));
+          $a.attr('href',$a.attr('href').replace('{$PATH}',root));
         });
 
 				// reference board settings iframe
@@ -240,10 +242,12 @@ TrelloPro.buildSettingsPane = function () {
 					let $this = jQuery(this);
 					if($this.is(':checked')) {
 						$this.parents('.switch').css('background','#2ecc71');
+						TrelloPro.$settingsPane.find('.tpro-settings-info').hide();
 						TrelloPro.$settingsPane.find('.tpro-settings-container').slideDown();
 					} else {
 						$this.parents('.switch').css('background','#BDB9A6');
 						TrelloPro.$settingsPane.find('.tpro-settings-container').slideUp();
+						TrelloPro.$settingsPane.find('.tpro-settings-info').show();
 					}
 				});
 
@@ -738,6 +742,7 @@ TrelloPro.load = function () {
     // parsing on?
     let parsing_on = TrelloPro.settings['parse-projects']
       || TrelloPro.settings['parse-labels']
+			|| TrelloPro.settings['parse-hashtags']
       || TrelloPro.settings['parse-time-entries']
       || TrelloPro.settings['parse-priority-marks']
       || TrelloPro.settings['parse-points'];
