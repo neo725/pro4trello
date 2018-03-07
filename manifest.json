@@ -29,7 +29,8 @@
         "css/*",
         "tmpl/*",
         "docs/*",
-        "lib/*"
+        "lib/*",
+        "board.html"
     ],
 
     "background": {
@@ -43,7 +44,8 @@
             "lib/jquery-3.0.0.min.js",
             "js/config.js",
             "js/trello-pro.js",
-            "js/donate.js"
+            "js/donate.js",
+            "js/board.js"
         ],
         "css": [
             "css/trello-pro.css"
