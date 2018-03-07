@@ -136,6 +136,14 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
       }
     }
 
+		// markup
+		if (TrelloPro.settings['parse-markup']) {
+			html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+		    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+		    .replace(/~~(.+?)~~/g, '<strike>$1</strike>')
+		    .replace(/\`(.+?)\`/g, '<code>$1</code>');
+    }
+
     // wrap HTML
     $htmlWrapper = jQuery('<div></div>').html(html);
 
@@ -743,6 +751,7 @@ TrelloPro.load = function () {
     let parsing_on = TrelloPro.settings['parse-projects']
       || TrelloPro.settings['parse-labels']
 			|| TrelloPro.settings['parse-hashtags']
+			|| TrelloPro.settings['parse-markup']
       || TrelloPro.settings['parse-time-entries']
       || TrelloPro.settings['parse-priority-marks']
       || TrelloPro.settings['parse-points'];

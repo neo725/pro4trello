@@ -34,6 +34,7 @@ TrelloPro.config = {
 		'parse-priority-marks': false,
 
 		'parse-points': false,
+		'parse-markup': false,
 		'visible-card-numbers': false,
 		'visible-labels': false,
 		'labels-size': 'medium',
