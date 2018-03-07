@@ -95,6 +95,15 @@ TrelloPro.cardNameChange = function ($title,refreshData) {
       });
     }
 
+		// hashtags
+    if (TrelloPro.settings['parse-hashtags']) {    
+			html = html.replace(TrelloPro.config.regex.hashtags, function (match, capture) {
+				let hashtag = TrelloPro.config.renderers.hashtags(capture);
+				filterAttributes.push('tpro-hashtag-' + TrelloPro.renderAttrName(hashtag.replace('#','')));
+				return '<span class="tpro-hashtag">' + hashtag + '</span>';
+			});
+    }
+
     // time entries
     if (TrelloPro.settings['parse-time-entries']) {
       html = html.replace(TrelloPro.config.regex.time_entries, function (match, capture) {
@@ -184,35 +193,7 @@ TrelloPro.loadSettingsPane = function () {
 	}
 
 	// load settings
-  for (let key in TrelloPro.settings) {
-    // try checkbox
-    let checkbox = TrelloPro.$settingsPane.find('input[type="checkbox"][name="' + key + '"]');
-    if (checkbox.length != 0) {
-      if (TrelloPro.settings[key]) {
-        checkbox.attr('checked', true);
-        checkbox.parents('.checklist-item').addClass('checklist-item-state-complete');
-      }
-      else {
-        checkbox.removeAttr('checked');
-        checkbox.parents('.checklist-item').removeClass('checklist-item-state-complete');
-      }
-      continue;
-    }
-
-		// try textarea
-    let textarea = TrelloPro.$settingsPane.find('textarea[name="' + key + '"]');
-    if (textarea.length != 0) {
-      textarea.val(TrelloPro.settings[key]);
-      continue;
-    }
-
-		// try radio
-    let radio = TrelloPro.$settingsPane.find('input[type="radio"][name="' + key + '"][value="' + TrelloPro.settings[key] + '"]');
-    if(radio.length != 0) {
-      radio.attr('checked',true);
-      continue;
-    }
-  }
+	TrelloPro.$boardSettingsIframe.attr('src',chrome.runtime.getURL('board.html')+'#b='+TrelloPro.boardId);
 }
 
 /**
@@ -221,10 +202,10 @@ TrelloPro.loadSettingsPane = function () {
 TrelloPro.buildSettingsPane = function () {
     // load settings HTML
     TrelloPro.$settingsPane = jQuery('<div class="tpro-settings-wrapper" style="display:none"></div>');
-    TrelloPro.$settingsPane.load(chrome.extension.getURL("tmpl/settings.html"), function () {
+    TrelloPro.$settingsPane.load(chrome.runtime.getURL("tmpl/settings.html"), function () {
         // determine root paths
-        let imgRoot = chrome.extension.getURL('img');
-        let docsRoot = chrome.extension.getURL('docs');
+        let imgRoot = chrome.runtime.getURL('img');
+        let docsRoot = chrome.runtime.getURL('docs');
 
         // handle image sources
         TrelloPro.$settingsPane.find('img').each(function(){
@@ -237,6 +218,22 @@ TrelloPro.buildSettingsPane = function () {
           let $a = jQuery(this);
           $a.attr('href',$a.attr('href').replace('{$PATH}',docsRoot));
         });
+
+				// reference board settings iframe
+				TrelloPro.$boardSettingsIframe = TrelloPro.$settingsPane.find('iframe#tpro-board-settings');
+
+				// kick start banners
+				TrelloPro.$banners = TrelloPro.$settingsPane.find('.tpro-settings-banner');
+				(function(){
+					let index = 0;
+					let rotateBanner = function(){
+						TrelloPro.$banners.filter(':visible').hide();
+						TrelloPro.$banners.filter(':eq('+index+')').fadeIn();
+						if(++index == TrelloPro.$banners.length) index = 0;
+						setTimeout(rotateBanner,(Math.floor(Math.random() * 10) + 5)*1000);
+					};
+					rotateBanner();
+				})();
 
 				// attach toggle behaviour
 				TrelloPro.$settingsPane.find('input[name="board-override"]').on('change',function(){
@@ -252,6 +249,7 @@ TrelloPro.buildSettingsPane = function () {
 
         // attach close button behaviour
         TrelloPro.$settingsPane.find('.tpro-settings-close').on('click', function () {
+					TrelloPro.saveSettings();
           TrelloPro.$settingsPane.fadeOut(150);
           jQuery('#board').show();
         });
@@ -261,40 +259,10 @@ TrelloPro.buildSettingsPane = function () {
 					// check for override
 					if(!TrelloPro.$settingsPane.find('input[name="board-override"]').is(':checked')) {
 						TrelloPro.settings = false;
-					} else {
-						// handle checkboxes
-	          TrelloPro.$settingsPane.find('input[type="checkbox"]').each(function () {
-	            let checkbox = jQuery(this);
-	            TrelloPro.settings[checkbox.attr('name')] = checkbox.prop('checked');
-	          });
-
-	          // handle text area inputs
-	          TrelloPro.$settingsPane.find('textarea').each(function () {
-	            let textarea = jQuery(this);
-	            TrelloPro.settings[textarea.attr('name')] = textarea.val();
-	          });
-
-	          // handle select/radio buttons
-	          TrelloPro.$settingsPane.find('.tpro-settings-radio-group').each(function () {
-	            let radio = jQuery(this).find('input').filter(':checked');
-	            TrelloPro.settings[radio.attr('name')] = radio.val();
-	          });
+						TrelloPro.saveSettings();
 					}
 
-          // update settings
-          let settings = {};
-          settings[TrelloPro.boardId] = TrelloPro.settings;
-          chrome.storage.sync.set(settings, function () {
-            window.location.reload();
-          });
-        });
-
-        // attach checkbox item behavior
-        TrelloPro.$settingsPane.find('.checklist-item-checkbox').on('click', function () {
-          let item = jQuery(this).parents('.checklist-item');
-          item.toggleClass('checklist-item-state-complete');
-          if (item.hasClass('checklist-item-state-complete')) item.find('input[type="checkbox"]').attr('checked', 'checked');
-          else item.find('input[type="checkbox"]').removeAttr('checked');
+					window.location.reload();
         });
 
         TrelloPro.$settingsPane.appendTo(jQuery('.board-canvas'));
@@ -634,7 +602,7 @@ TrelloPro.renderAttrName = function(name) {
 TrelloPro.toggleCssInject = function(name) {
   if (TrelloPro.settings[name]) {
     let $inject = jQuery('<style id="tpro-'+name+'-css"></style>');
-    $inject.load(chrome.extension.getURL('css/'+name+'.css'), function () {
+    $inject.load(chrome.runtime.getURL('css/'+name+'.css'), function () {
       jQuery('body').append($inject);
     });
   } else jQuery('#tpro-'+name+'-css').remove();
@@ -672,6 +640,23 @@ TrelloPro.saveSettings = function() {
   settings[TrelloPro.boardId] = TrelloPro.settings;
   chrome.storage.sync.set(settings);
 }
+
+// /**
+//  * Attempts to save current board settings
+//  *
+//  * @param {*} evt
+//  */
+// TrelloPro.processMessage = function(e) {
+// 	if(e.origin === chrome.runtime.getURL('').slice(0,-1)) {
+// 		let data = JSON.parse(e.data);
+//
+// 		switch(data.id) {
+// 			case 'tmp-settings':
+// 				TrelloPro.tmpSettings = data.settings;
+// 				break;
+// 		}
+// 	}
+// }
 
 /**
  * Loads everything
@@ -720,8 +705,9 @@ TrelloPro.load = function () {
     else jQuery('body').removeClass('tpro-show-list-stats');
 
     // custom background
-    if (TrelloPro.settings['custom-background'] && TrelloPro.settings['custom-background-input'] != "") {
-      let $customBackgroundStyle = jQuery('<style id="tpro-custom-background-css">body { background-image: url("'+TrelloPro.settings['custom-background-input']+'") !important }</style>');
+
+    if (TrelloPro.settings['custom-background'] && TrelloPro.settings['custom-background-input'] !== "") {
+      let $customBackgroundStyle = jQuery('<style id="tpro-custom-background-css">body, #classic-body { background-image: url("'+TrelloPro.settings['custom-background-input']+'") !important }</style>');
       jQuery('body').append($customBackgroundStyle);
     }
     else {
@@ -784,7 +770,7 @@ let tpro = function(){
 
   // introduce font awesome
   if(jQuery('#trello-pro-font-awesome').length == 0) {
-    jQuery('body').append('<link id="trello-pro-font-awesome" href="'+chrome.extension.getURL("lib/font-awesome/css/font-awesome.min.css")+'" rel="stylesheet">');
+    jQuery('body').append('<link id="trello-pro-font-awesome" href="'+chrome.runtime.getURL("lib/font-awesome/css/font-awesome.min.css")+'" rel="stylesheet">');
   }
 
 	// bind ESC key
@@ -900,6 +886,14 @@ let tpro = function(){
 
 	// trigger data refresh every 7.5 seconds
 	(refresh = function() { TrelloPro.refreshData(); setTimeout(refresh,7500); })();
+
+	// listen to messages from iframes
+	// if (window.addEventListener) {
+	// 	window.addEventListener('message', TrelloPro.processMessage, false);
+	// }
+	// else {
+	// 	window.attachEvent('onmessage', relloPro.processMessage);
+	// }
 
 	// // check if a card is opened directly
 	// if(window.location.href.split('/')[3] == 'c') {

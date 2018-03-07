@@ -1,3 +1,14 @@
+/* Menu Item */
+
+#tpro-filter-trigger.has-notification {
+    -webkit-animation: blinking 1s infinite linear;
+}
+
+@-webkit-keyframes blinking {
+  from { opacity: 1; }
+  to { opacity: 0.75; }
+}
+
 /* ============================ TRELLO CARD ============================ */
 
 .list-card-title {
@@ -7,6 +18,11 @@
 .tpro-project {
   font-weight:bold;
   margin-right: 5px;
+}
+
+.tpro-hashtag {
+  font-weight:bold;
+  color: #2980b9;
 }
 
 /*.list-card .badges {
@@ -172,11 +188,10 @@ body.tpro-show-list-stats .list { border-top-left-radius: 0px; border-top-right-
 .tpro-settings-links a:hover { color: #0079BF; }
 
 .tpro-settings-body {
-  position: relative;
+  position: absolute;
+  width: 100%;
   height: 100%;
-  overflow-y:scroll;
-  overflow-x: hidden;
-  margin-bottom: 100px;
+  left: 0;
 }
 
 .tpro-settings-body input[type="checkbox"] {
@@ -190,6 +205,7 @@ body.tpro-show-list-stats .list { border-top-left-radius: 0px; border-top-right-
 
 .tpro-settings-body .checklist-item {
   width: 100%;
+  padding-bottom: 10px;
 }
 
 span.tpro-before-after {
@@ -268,6 +284,22 @@ span.tpro-before-after {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.tpro-settings-container {
+  width:100%;
+  height: 100%;
+  border: none;
+}
+
+.tpro-settings-banner {
+  position: absolute;
+  width: 100%;
+  bottom: 100px;
+  padding-bottom: 15px;
+  background-color: transparent;
+  text-align: right;
+  display: none;
 }
 
 /* Switch */

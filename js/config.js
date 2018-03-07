@@ -5,6 +5,7 @@ TrelloPro.config = {
 	regex: {
 		tags: [/(.*\ \:\:\ )/,/(.*\ \|\ )/],
 		labels: /(\[[^\]]*\])/g,
+		hashtags: /\W(\#[a-zA-Z]+\b)(?!;)/gm,
 		time_entries: /(\{[^\}]*\})/g,
 		points: /(\|[^\}]*\|)/g
 	},
@@ -12,6 +13,7 @@ TrelloPro.config = {
 	renderers: {
 		tags: function(capture) { return capture.replace(' :: ','').replace(' | ',''); },
 		labels: function(capture) { return capture.replace('[','').replace(']',''); },
+		hashtags: function(capture) { return capture },
 		time_entries: function(capture) { return capture.replace('{','').replace('}',''); },
 		points: function(capture) { return capture.split('|').join(''); }
 	},
@@ -27,6 +29,7 @@ TrelloPro.config = {
 
 		'parse-projects': false,
 		'parse-labels': false,
+		'parse-hashtags': false,
 		'parse-time-entries': false,
 		'parse-priority-marks': false,
 

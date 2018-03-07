@@ -13,312 +13,49 @@
 		<a href="https://chrome.google.com/webstore/detail/pro-for-trello-free-trell/hcjkfaengbcfeckhjgjdldmhjpoglecc/support" target="_blank">Support</a>&nbsp;|
 		<a href="https://github.com/mdjekic/pro4trello" target="_blank">GitHub</a>
 	</div>
-	<hr />
-</div>
-
-<div class="tpro-settings-body">
-
-	<div style="width: 100%; background:white;">
+	<div style="width: 100%; background:white; border-top: 1px solid #CCC; border-bottom: 1px solid #CCC; text-align: right; height: 30px; padding-top: 10px;">
 		<div class="switch-container">
-			<div style="float: left; padding-top: 1px; margin-right: 8px">
-				Customize board settings:
-			</div>
 			<label class="switch">
 				<input name="board-override" type="checkbox" />
 				<div></div>
 			</label>
+			<div style="float: right; padding-top: 1px; margin-left: 8px; margin-right: 8px;">
+				override default settings
+			</div>
 		</div>
 	</div>
+</div>
 
-	<div class="tpro-settings-container">
-		<br />
-		<h2># Card Tweaks</h2>
-		<div>
-			<div style="float: left; margin-right: 25px">
-				<div class="checklist-items-list">
+<div class="tpro-settings-body">
+	<iframe id="tpro-board-settings" class="tpro-settings-container" src="" />
 
-					<!-- parse-projects -->
-					<div class="checklist-item">
-						<input type="checkbox" name="parse-projects" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Recognize <b>group</b></p>
-
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-projects-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-projects-after.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- parse-labels -->
-					<div class="checklist-item">
-						<input type="checkbox" name="parse-labels" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Recognize <b>custom tags</b></p>
-
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-labels-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-labels-after.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- parse-time-entries -->
-					<div class="checklist-item">
-						<input type="checkbox" name="parse-time-entries" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Recognize <b>time entries</b></p>
-
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-time-entries-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-time-entries-after.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- parse-priority-marks -->
-					<div class="checklist-item">
-						<input type="checkbox" name="parse-priority-marks" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Recognize <b>priority</b> (medium, high, critical)</p>
-
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-priority-marks-medium-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-priority-marks-medium-after.png" />
-							<br />
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-priority-marks-high-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-priority-marks-high-after.png" />
-							<br />
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-priority-marks-critical-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-priority-marks-critical-after.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-				</div><!-- /.checklist-item-list -->
-				<br style="clear:both" />
-			</div>
-			<div style="float: left;">
-				<div class="checklist-items-list">
-
-					<!-- parse-points -->
-					<div class="checklist-item">
-						<input type="checkbox" name="parse-points" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Recognize <b>points</b></p>
-
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-points-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/parse-points-after.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- visible-card-numbers -->
-					<div class="checklist-item">
-						<input type="checkbox" name="visible-card-numbers" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Display card numbers</p>
-							<img class="tpro-before-after" src="{$PATH}/settings/visible-card-numbers-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/visible-card-numbers-after.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- visible-labels -->
-					<div class="checklist-item">
-						<input type="checkbox" name="visible-labels" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Display full-sized labels</p>
-							<img class="tpro-before-after" src="{$PATH}/settings/visible-labels-before.png" />
-							<span class="tpro-before-after">
-								<i class="fa fa-arrow-right" aria-hidden="true"></i>
-							</span>
-							<img class="tpro-before-after" src="{$PATH}/settings/visible-labels-after.png" />
-							<div class="tpro-settings-radio-group">
-								Labels size:
-								<input type="radio" name="labels-size" id="labels-size-radio-small" value="small" /> <label for="labels-size-radio-small">Small</label>
-								<input type="radio" name="labels-size" id="labels-size-radio-medium" value="medium" /> <label for="labels-size-radio-medium">Medium</label>
-								<input type="radio" name="labels-size" id="labels-size-radio-large" value="large" /> <label for="labels-size-radio-large">Large</label>
-							</div>
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- beautify-markdown -->
-					<div class="checklist-item">
-						<input type="checkbox" class="has-input" name="beautify-markdown" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Beautify Card Description</p>
-
-							<img class="tpro-before-after" style="height: 100px !important;" src="{$PATH}/settings/beautify-markdown.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-					<!-- hide-activity-entries -->
-					<div class="checklist-item">
-						<input type="checkbox" class="has-input" name="hide-activity-entries" value="1">
-						<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-							<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-						</div>
-						<div class="checklist-item-details" attr="name">
-							<p class="checklist-item-details-text js-checkitem-name">Hide "Activity" entries</p>
-
-							<img class="tpro-before-after" style="height:32px !important;" src="{$PATH}/settings/hide-activity-entries.png" />
-						</div>
-					</div><!-- /.checklist-item -->
-
-				</div><!-- /.checklist-item-list -->
-				<br style="clear:both" />
-			</div>
-			<div style="clear: both"></div>
-		</div>
-
-		<h2># Board Tweaks</h2>
-		<div>
-			<div class="checklist-items-list">
-
-				<!-- full-screen-cards (disabled) -->
-				<div class="checklist-item" style="display: none">
-					<input type="checkbox" class="has-input" name="full-screen-cards" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Full screen card details</p>
-					</div>
-				</div><!-- /.checklist-item -->
-
-				<!-- custom-background -->
-				<div class="checklist-item">
-					<input type="checkbox" class="has-input" name="custom-background" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Apply custom background</p>
-					</div>
-					<textarea name="custom-background-input" placeholder="Paste URL here..." tabindex="1" dir="auto"></textarea>
-					<br />
-				</div><!-- /.checklist-item -->
-
-				<!-- show-list-stats -->
-				<div class="checklist-item">
-					<input type="checkbox" class="has-input" name="show-list-stats" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Show list stats</p>
-						<img class="tpro-before-after" style="height: 250px;" src="{$PATH}/settings/show-list-stats.png" />
-					</div>
-				</div><!-- /.checklist-item -->
-
-				<!-- show-list-stats-progressbar -->
-				<div class="checklist-item">
-					<input type="checkbox" class="has-input" name="show-list-stats-progressbar" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Use progress bar in list stats</p>
-						<img class="tpro-before-after" style="height: 40px;" src="{$PATH}/settings/show-list-stats-progressbar.png" />
-					</div>
-				</div><!-- /.checklist-item -->
-
-				<!-- compact-cards -->
-				<div class="checklist-item">
-					<input type="checkbox" class="has-input" name="compact-cards" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Compact Board</p>
-						<img class="tpro-before-after" style="height: 219px;" src="{$PATH}/settings/compact-cards.png" />
-					</div>
-				</div><!-- /.checklist-item -->
-
-				<!-- hide-add-list -->
-				<div class="checklist-item">
-					<input type="checkbox" class="has-input" name="hide-add-list" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Hide "Add a list.." input</p>
-
-						<img class="tpro-before-after" style="height: 25px !important;" src="{$PATH}/settings/hide-add-list.png" />
-					</div>
-				</div><!-- /.checklist-item -->
-
-				<!-- custom-favicon (disabled) -->
-				<div class="checklist-item" style="display:none">
-					<input type="checkbox" class="has-input" name="custom-favicon" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Apply custom favicon</p>
-					</div>
-					<textarea name="custom-favicon-input" placeholder="Paste URL here..." tabindex="1" dir="auto"></textarea>
-					<br />
-				</div><!-- /.checklist-item -->
-
-				<!-- custom-css -->
-				<div class="checklist-item">
-					<input type="checkbox" class="has-input" name="custom-css" value="1">
-					<div class="checklist-item-checkbox enabled js-toggle-checklist-item">
-						<span class="icon-sm icon-check checklist-item-checkbox-check"></span>
-					</div>
-					<div class="checklist-item-details" attr="name">
-						<p class="checklist-item-details-text js-checkitem-name">Apply custom CSS</p>
-					</div>
-					<textarea name="custom-css-input" placeholder="Paste styles here..." tabindex="1" dir="auto" style="height: 100px"></textarea>
-					<br />
-				</div><!-- /.checklist-item -->
-
-			</div><!-- /.checklist-item-list -->
-
-			<br style="clear:both" />
-		</div><!-- /.tpro-settings-section -->
+	<!-- Ivacy -->
+	<div class="tpro-settings-banner">
+		<a href="https://billing.ivacy.com/page/22758/f8a8a7e2" target="_top">
+			<img src="//ivacy.postaffiliatepro.com/accounts/default1/vdegzkxbw/f8a8a7e2.png" alt="" title="" width="728" height="90" />
+		</a>
+		<img style="border:0" src="https://ivacy.postaffiliatepro.com/scripts/vdegzkxiw?aff=22758&amp;a_bid=f8a8a7e2" width="1" height="1" alt="" />
 	</div>
 
-	<div style="height: 50px; clear: both"></div>
+	<!-- Rankpay -->
+	<div class="tpro-settings-banner">
+		<a href="https://www.rankpay.com/2747-0-1-28.html" target="_blank">
+			<img style="border:0px" src="https://partners.rankpay.com/platform/media/banners/social-seo_leaderboard.jpg" width="728" height="90" alt="">
+		</a>
+	</div>
+
+	<!-- AppThemes -->
+	<div class="tpro-settings-banner">
+		<a href="http://www.appthemes.com/?aid=53228" target="_blank">
+			<img src="//www.appthemes.com/ads/at-260x125b.png" alt="Premium WordPress Apps" width="260" height="125"/>
+		</a>
+	</div>
+
+	<!-- Optipic -->
+	<div class="tpro-settings-banner">
+		<a href="https://optipic.io/en/?my_coupon=djddj6XDozQfla7JlYs467SoEZl9ICbt" target="_blank">
+			<img src="https://optipic.io/uploads/optipic-1-en.gif"/>
+		</a>
+	</div>
 
 </div>
