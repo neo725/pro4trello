@@ -413,6 +413,38 @@ let refreshListStats = function() {
 // -----------------------------------------------------------------------------
 
 /**
+ * Rotates banners while settings are visible
+ */
+let rotateBanners = function() {
+	let batch = 'tpro-banners-' + Math.random().toString().replace('0.','');
+	TrelloPro.$settingsPane.data('batch',batch);
+	let $banners = TrelloPro.$settingsPane.find('.tpro-settings-banner');
+
+	// randomize order
+	let order = [];
+	for (let i=0; i<$banners.length; i++) order.push(i);
+	for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+  }
+
+	// rotate
+	let index = 0;
+	let rotate = function(){
+		if(!TrelloPro.$settingsPane.is(':visible')) return;
+		if(!TrelloPro.$settingsPane.data('batch') || TrelloPro.$settingsPane.data('batch') != batch) return;
+
+		$banners.filter(':visible').hide();
+		$banners.eq(order[index]).fadeIn();
+
+		if(++index == $banners.length) index = 0;
+		setTimeout(rotate,7500);
+	};
+
+	setTimeout(rotate,1000);
+}
+
+/**
  * Loads current settings in the settings pane
  */
 let loadSettingsPane = function () {
@@ -432,6 +464,8 @@ let loadSettingsPane = function () {
 		TrelloPro.$settingsPane.find('.tpro-settings-container').hide();
 		TrelloPro.$settingsPane.find('.tpro-settings-info').show();
 	}
+
+	rotateBanners();
 
 	// load settings
 	TrelloPro.$boardSettingsIframe.attr('src',chrome.runtime.getURL('board.html')+'#b='+TrelloPro.boardId);
@@ -464,19 +498,6 @@ let buildSettingsPane = function () {
 
 				// reference board settings iframe
 				TrelloPro.$boardSettingsIframe = TrelloPro.$settingsPane.find('iframe#tpro-board-settings');
-
-				// kick start banners
-				TrelloPro.$banners = TrelloPro.$settingsPane.find('.tpro-settings-banner');
-				(function(){
-					let index = 0;
-					let rotateBanner = function(){
-						TrelloPro.$banners.filter(':visible').hide();
-						TrelloPro.$banners.filter(':eq('+index+')').fadeIn();
-						if(++index == TrelloPro.$banners.length) index = 0;
-						setTimeout(rotateBanner,(Math.floor(Math.random() * 10) + 5)*1000);
-					};
-					rotateBanner();
-				})();
 
 				// attach toggle behaviour
 				TrelloPro.$settingsPane.find('input[name="board-override"]').on('change',function(){
