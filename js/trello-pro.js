@@ -59,7 +59,7 @@ let toggleCssInject = function(name) {
  * @param {object} object
  */
 let log = function(object) {
-	//return;
+	return;
 	console.log(object);
 };
 
