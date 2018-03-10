@@ -21,7 +21,6 @@ function updateSettings() {
     settings[radio.attr('name')] = radio.val();
   });
 
-  //parent.window.postMessage(JSON.stringify({'id':'tmp-settings','settings':settings}),'https://trello.com');
   let storage = {};
   storage[boardId] = settings;
   chrome.storage.sync.set(storage);
@@ -29,7 +28,6 @@ function updateSettings() {
 
 function loadSettings() {
   boardId = window.location.hash.replace('#b=','');
-
   chrome.storage.sync.get(['defaults',boardId], function (globalSettings) {
     var settings = globalSettings[boardId];
 
@@ -72,6 +70,6 @@ $(function(){
   loadSettings();
 
   $('input[type="checkbox"],input[type="radio"]').on('change',updateSettings);
-  $('tinput[type="text"],extarea').on('keyup',updateSettings);
+  $('tinput[type="text"],extarea').on('input',updateSettings);
 
 });
