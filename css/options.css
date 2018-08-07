@@ -10,8 +10,9 @@
 .tpro-setting input[type=radio] + label:before { color: #7f8c8d; }
 .tpro-setting input[type=radio] + label:before { letter-spacing: 10px; }
 
-.tpro-setting input[type=checkbox]:checked + label:before { content: "\f046"; color: #2c3e50; }
+.tpro-setting input[type=checkbox]:checked + label:before { content: "\f046"; color: #27ae60; }
 .tpro-setting input[type=checkbox]:checked + label:before { letter-spacing: 5px; }
+.tpro-setting input[type=checkbox]:checked + label { color: #2c3e50; }
 
 .tpro-setting input[type=radio]:checked + label:before { color: #2c3e50; }
 .tpro-setting input[type=radio]:checked + label:before { letter-spacing: 5px; }
@@ -40,4 +41,14 @@
 
 .tpro-setting .radio-group label {
   display: inline;
+}
+
+.tpro-before-after {
+  height: 50px;
+  margin-left: 10px;
+}
+
+span.tpro-before-after {
+  display: inline-block;
+  vertical-align: middle;
 }

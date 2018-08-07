@@ -18,6 +18,9 @@
   font-weight: 300 !important;
   letter-spacing: 0.6px !important;
   text-shadow: none !important;
+  max-width: none !important;
+  overflow: auto !important;
+  text-overflow: inherit !important;
 }
 
 body.tpro-card-labels-size-small .list-card-labels .card-label {
