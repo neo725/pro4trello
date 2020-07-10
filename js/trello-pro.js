@@ -63,6 +63,34 @@ let log = function(object) {
 	console.log(object);
 };
 
+let processCustomCardLabel = function ($label) {
+	return new Promise((resolve, reject) => {
+		try {
+			$label.addClass('my-label')
+			let $labelTexts = $label.find('.label-text');
+			
+			for (let i = 0; i < $labelTexts.length; i++) {
+				let $labelText = jQuery($labelTexts[i]);
+
+				console.log(
+					'<processCustomCardLabel>',
+					'$labelText : ', 
+					$labelText);
+
+				// $labelText.css({
+				// 	'display': 'inline-block'
+				// });
+				$labelText.addClass('my-label-text')
+			}
+
+			resolve();
+		}
+		catch (ex) {
+			reject(ex)
+		}
+	})
+}
+
 /**
  * Handles card name change event for a specific card
  *
@@ -539,7 +567,7 @@ let buildSettingsPane = function () {
  * Builds the TrelloPro menu
  */
 let buildMenu = function () {
-  TrelloPro.$button = jQuery('<a id="tpro-filter-trigger" class="board-header-btn calendar-btn" href="#"><span class="icon-sm icon-board board-header-btn-icon"></span><span class="board-header-btn-text u-text-underline">Pro4Trello</span></a>');
+  TrelloPro.$button = jQuery('<a id="tpro-filter-trigger" class="board-header-btn calendar-btn" href="#"><span class="icon-sm icon-board board-header-btn-icon"></span><span class="board-header-btn-text u-text-underline">Pro4Trello#</span></a>');
   TrelloPro.$button.on('click', function () {
     if (TrelloPro.$settingsPane.is(':visible')) {
       TrelloPro.$settingsPane.fadeOut(150);
@@ -861,7 +889,7 @@ let loadBoard = function () {
 	TrelloPro.boardId = boardId;
   TrelloPro.boardTitle = boardTitle;
 	TrelloPro.loaded = false;
-	log('Loading Pro4Trello, board "' + boardId + '"...');
+	log('Loading Pro4Trello#, board "' + boardId + '"...');
 
   // load settings
   TrelloPro.settings = TrelloPro.config.defaultSettings;
@@ -892,7 +920,34 @@ let loadBoard = function () {
 					//buildLabelsFilter();
 					rebuildDynamicStyles();
 					buildSettingsPane();
-		      buildMenu();
+					buildMenu();
+					let myLabelProcess = function() {
+						return new Promise((resolve, reject) => {
+							let $labels =
+								jQuery('.list-card-details .list-card-labels');
+							let promises = [];
+							for (let i = 0; i < $labels.length; i++) {
+								let $label = jQuery($labels[i]);
+								promises.push(processCustomCardLabel($label));
+							}
+
+							Promise.all(promises)
+								.then(() => {
+									resolve();
+								});
+						})
+					};
+
+					let labelProcessTask = function(callback) {
+						setTimeout(function() {
+							myLabelProcess()
+								.then(function() {
+									callback(callback);
+								})
+						}, 1000);
+					};
+
+					labelProcessTask(labelProcessTask);
 				})
 		}, 500);
   });
@@ -906,7 +961,7 @@ let loadBoard = function () {
  * Initializes the content script
  */
 let tpro = function(){
-	log('Pro4Trello intiialized...');
+	log('Pro4Trello# intiialized...');
 	TrelloPro.refreshing = false;
 
 	// introduce dynamic styles
